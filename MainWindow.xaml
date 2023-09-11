@@ -3,23 +3,57 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BudgetApp"
+        xmlns:local="clr-namespace:BudgetApp" xmlns:views="clr-namespace:BudgetApp.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="450">
+        Title="MainWindow" Height="800" Width="400"
+        Left="0"
+        Top="0">
+    
+    <Window.Resources>
+        <Style x:Key="NoHoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <!-- No Trigger for IsMouseOver -->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="NoHighlightListViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1.5*" />
             <ColumnDefinition Width="10*" />
+            <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="10*" />
+            <RowDefinition Height="0.5*" />
         </Grid.RowDefinitions>
         
         <!--Navigation Bar-->
-        <StackPanel Grid.Row="0" Grid.RowSpan="2">
-            
+        <StackPanel Grid.Row="0" Grid.RowSpan="3">
         </StackPanel>
 
         <!--Month Selector Area-->
@@ -30,15 +64,102 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0"/>
-            <Button Grid.Column="3"/>
+            <Button
+                Grid.Column="0"
+                Height="35"
+                FontFamily="Wingdings"
+                Content="ç"
+                Command="{Binding }" />
+
+            <TextBlock 
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="30"
+                Text="{Binding Month}" />
+
+            <Button 
+                Grid.Column="2"
+                Height="35"
+                FontFamily="Wingdings"
+                Content="è"
+                Command="{Binding }" />
+
         </Grid>
         
         <!--Main Info Area-->
-        <Grid Grid.Row="1" Grid.Column="1">
-            
-        </Grid>
+        <ScrollViewer 
+            Name="MainScrollViewer"
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalScrollBarVisibility="Hidden">
+            <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="15" Background="Gray">
+
+                <Grid
+                    VerticalAlignment="Top"
+                    Background="Transparent">
+
+                    <ListView
+                        x:Name="List"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                        BorderThickness="0"
+                        Background="Transparent"
+                        ItemsSource="{Binding Items}"
+                        ItemContainerStyle="{StaticResource NoHighlightListViewItemStyle}" />
+
+                </Grid>
+            </Border>
+
+        </ScrollViewer>
         
+        <!--Add Category Button-->
+        <Grid 
+            Background="DarkGray"
+            Grid.Row="3"
+            Grid.ColumnSpan="3"
+            Grid.Column="0">
+            
+            <StackPanel
+                Orientation="Horizontal"
+
+                HorizontalAlignment="Right"
+                Background="Transparent">
+            
+            
+                <Border 
+                    x:Name="PlusBorder"
+                    BorderBrush="Green"
+                    Background="GreenYellow"
+                    BorderThickness="2"
+                    CornerRadius="15"
+                    Margin="2 2 2 2">
+                
+                    <Button
+                        x:Name="PlusButton"
+                        Style="{StaticResource NoHoverButtonStyle}"
+                        FontSize="20"
+                        Width="Auto"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Command="{Binding AddCategory}"
+                        MouseEnter="PlusButton_MouseEnter"
+                        MouseLeave="PlusButton_MouseLeave" >
+                    
+                        <TextBlock
+                            Text="  Add Category  "
+                            FontSize="15"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="0 0 0 3"/>
+
+                    </Button>
+                </Border>
+            </StackPanel>
+        </Grid>
     </Grid>
 
 </Window>

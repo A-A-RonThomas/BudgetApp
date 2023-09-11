@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 C:\Users\ajtho\Desktop\WPF Personal Projects\BudgetApp\App.xaml
-11407045341
+21594442659
 
-5-1820997548
+131568144567
 198947991364
-MainWindow.xaml;
+MainWindow.xaml;Views\BudgetCategoryView.xaml;
 
-False
+True
 
